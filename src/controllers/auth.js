@@ -1,5 +1,6 @@
 import {Users} from "../models/";
 import bcrypt from 'bcryptjs';
+import { generateJWT } from '../middlewares/jwt'
 
 //1. Completar la logica para manejar el inicio de sesión
 // - responder con un codigo de estado 401 cuando las credenciales sean incorrectas
@@ -12,7 +13,8 @@ export const login = async (req, res) => {
         if(results) {
             const match = await bcrypt.compare(data.password, results.password);
             if(match) {
-                res.status(200).json({message: "correct"})
+                const token = await generateJWT(results.dataValues)
+                res.status(200).json({message: 'Correcto', token: token})
             } else {
                 res.status(401).json({message: 'Error en la contrasena'})
             }
