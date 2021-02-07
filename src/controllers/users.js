@@ -20,7 +20,9 @@ export const getUsers = async (req, res) => {
 
 
 export const getUser = async (req, res) => {
-    const token = req.header('Authorization')
+    const authHeader = req.headers.authorization
+    // const tokenBearer = authHeader.slice(7)
+    const token = authHeader && authHeader.slice(7);
     const verifyUser = await validateJWT(token)
     try{
         if(verifyUser) {
@@ -32,9 +34,11 @@ export const getUser = async (req, res) => {
             })
             res.json(results)
         } else {
+            // console.log(token)
             res.status(401).json({message: 'Token invalido'})
         }
     } catch(err) {
         console.log(err)
     }
+    // console.log(token)
 }
