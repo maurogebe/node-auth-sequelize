@@ -2,7 +2,8 @@ import {Users} from "../models/";
 import { validateJWT } from '../middlewares/jwt'
 
 export const getUsers = async (req, res) => {
-    const token = req.header('Authorization')
+    const authHeader = req.header('Authorization')
+    const token = authHeader && authHeader.slice(7);
     const verifyUser = await validateJWT(token)
     try{
         if(verifyUser) {
@@ -20,7 +21,7 @@ export const getUsers = async (req, res) => {
 
 
 export const getUser = async (req, res) => {
-    const authHeader = req.headers.authorization
+    const authHeader = req.header('Authorization')
     // const tokenBearer = authHeader.slice(7)
     const token = authHeader && authHeader.slice(7);
     const verifyUser = await validateJWT(token)
