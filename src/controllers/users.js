@@ -27,7 +27,7 @@ export const getUser = async (req, res) => {
     try{
         if(verifyUser) {
             const results = await Users.findOne({
-                attributes: ['lastName'],
+                attributes: ['email', 'firstName', 'lastName'],
                 where: {
                     id: req.params.id
                 }
